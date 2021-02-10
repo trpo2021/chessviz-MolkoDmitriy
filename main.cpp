@@ -1,7 +1,6 @@
 #include <iostream>
 
-const int n = 9;
-void OutArea(char (&a)[n][n])
+void OutArea(char** a, int n)
 {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -13,32 +12,43 @@ void OutArea(char (&a)[n][n])
 int main()
 {
     using namespace std;
-    char ChessArea[n][n];
+    const int n = 9;
+    const int trans_num_to_aski = 48;
+    const int trans_lett_to_aski = 96;
+    const int lowercase_trans = -32;
+    char** ChessArea = new char*[n];
+    for (int i = 0; i < n; i++) {
+        ChessArea[i] = new char[n];
+    }
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             ChessArea[i][j] = ' ';
         }
     }
     for (int i = 0; i < n; i++) {
-        ChessArea[i][0] = (char)(48 + (n - i - 1));
-        ChessArea[8][i] = (char)(96 + i);
+        ChessArea[i][0] = (char)(trans_num_to_aski + (n - i - 1));
+        ChessArea[8][i] = (char)(trans_lett_to_aski + i);
     }
     for (int i = 1; i < n; i++) {
         ChessArea[1][i] = 'p';
     }
-    ChessArea[0][1] = 'r';
-    ChessArea[0][2] = 'n';
-    ChessArea[0][3] = 'b';
-    ChessArea[0][4] = 'q';
-    ChessArea[0][5] = 'k';
-    ChessArea[0][6] = 'b';
-    ChessArea[0][7] = 'n';
-    ChessArea[0][8] = 'r';
     for (int i = 1; i < n; i++) {
-        ChessArea[7][i] = (char)(ChessArea[0][i] - 32);
-        ChessArea[6][i] = (char)(ChessArea[1][i] - 32);
+        if (i == 1 || i == 8)
+            ChessArea[0][i] = 'r';
+        if (i == 2 || i == 7)
+            ChessArea[0][i] = 'n';
+        if (i == 3 || i == 6)
+            ChessArea[0][i] = 'b';
+        if (i == 4)
+            ChessArea[0][i] = 'q';
+        if (i == 5)
+            ChessArea[0][i] = 'k';
+    }
+    for (int i = 1; i < n; i++) {
+        ChessArea[7][i] = (char)(ChessArea[0][i] + lowercase_trans);
+        ChessArea[6][i] = (char)(ChessArea[1][i] + lowercase_trans);
     }
     ChessArea[8][0] = ' ';
 
-    OutArea(ChessArea);
+    OutArea(ChessArea, n);
 }
