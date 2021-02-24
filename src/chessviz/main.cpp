@@ -1,3 +1,4 @@
+#include "../libchessviz/checkmove.h"
 #include <iostream>
 
 void OutArea(char** a, int n)
