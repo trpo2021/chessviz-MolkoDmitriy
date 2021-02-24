@@ -4,8 +4,8 @@ int check_move(char** area, string move)
 {
     if (move.size() == 0)
         return 0;
-    int i;
-    int size_mv = 5;
+    long unsigned int i;
+    long unsigned int size_mv = 5;
     int first_prob = move.find_first_of(' ');
     bool no_pawn_fl = false;
     if (move[0] == 'r' || move[0] == 'n' || move[0] == 'b' || move[0] == 'q'
