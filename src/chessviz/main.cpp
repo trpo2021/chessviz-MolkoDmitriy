@@ -73,4 +73,8 @@ int main()
             continue;
         }
     }
+    for (int i = 0; i < n; i++) {
+        delete[] chess_area[i];
+    }
+    delete[] chess_area;
 }
