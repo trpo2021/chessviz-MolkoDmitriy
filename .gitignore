@@ -1,2 +1,4 @@
 bin/chessviz
 obj/src/libchessviz/*.o
+obj/src/chessviz/*.o
+

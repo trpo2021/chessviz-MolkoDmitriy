@@ -1,6 +1,6 @@
-#include "../libchessviz/checkmove.h"
-#include "../libchessviz/mvpawn.h"
 #include <iostream>
+#include <libchessviz/checkmove.h>
+#include <libchessviz/mvpawn.h>
 
 void out_area(char** a, int n)
 {
