@@ -1,4 +1,4 @@
-#include "mvpawn.h"
+#include <libchessviz/mvpawn.h>
 char** pawn_move(char** area, string move)
 {
     long unsigned int i = 0;

@@ -1,4 +1,4 @@
-#include "checkmove.h"
+#include <libchessviz/checkmove.h>
 
 int check_move(char** area, string move)
 {
