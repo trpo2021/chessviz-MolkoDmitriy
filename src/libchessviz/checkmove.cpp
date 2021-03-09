@@ -35,25 +35,28 @@ int check_move(char** area, string move)
     if (second_move.size() > size_mv)
         return 0;
 
-    if (first_move[0] > 'h' || first_move[0] < 'a' || first_move[1] > '8'
-        || first_move[1] < '1')
-        return 0;
-    else if (
-            first_move[3] > 'h' || first_move[3] < 'a' || first_move[4] > '8'
-            || first_move[4] < '1')
+    if (move_check_area(first_move, 0))
         return 0;
 
-    if (second_move.size() >= size_mv) {
-        if (second_move[0] > 'h' || second_move[0] < 'a' || second_move[1] > '8'
-            || second_move[1] < '1')
+    if (second_move.size() >= size_mv)
+        if (move_check_area(second_move, 0))
             return 0;
-        else if (
-                second_move[3] > 'h' || second_move[3] < 'a'
-                || second_move[4] > '8' || second_move[4] < '1')
-            return 0;
-    }
+
     if (no_pawn_fl)
         return 2;
     else
         return 1;
+}
+
+bool move_check_area(vector<char> move, int position)
+{
+    if (move[position] > 'h' || move[position] < 'a' || move[position + 1] > '8'
+        || move[position + 1] < '1')
+        return 1;
+
+    if (move[position + 3] > 'h' || move[position + 3] < 'a'
+        || move[position + 4] > '8' || move[position + 4] < '1')
+        return 1;
+
+    return 0;
 }
