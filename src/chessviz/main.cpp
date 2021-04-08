@@ -1,7 +1,7 @@
 #include <iostream>
 #include <libchessviz/checkmove.h>
+#include <libchessviz/mvfigure.h>
 #include <libchessviz/mvpawn.h>
-
 void out_area(char** a, int n)
 {
     for (int i = 0; i < n; i++) {
@@ -51,20 +51,31 @@ int main()
         chess_area[6][i] = (char)(chess_area[1][i] + lowercase_trans);
     }
     chess_area[8][0] = ' ';
-
     cout << "Input your move: number move. move move" << endl;
     cout << "To exit input 1 \n" << endl;
     out_area(chess_area, n);
 
     cout << endl;
-
     while (true) {
         string move;
+        vector<char> first_move;
+        vector<char> second_move;
         getline(cin, move);
+
         if (move == "1")
             break;
-        if (check_move(chess_area, move)) {
-            chess_area = pawn_move(chess_area, move);
+
+        if (check_move(chess_area, move, first_move, second_move)) {
+            if (first_move[0] == ' ')
+                chess_area = pawn_move(chess_area, first_move);
+            else
+                chess_area = figure_move(chess_area, first_move);
+            if (second_move.size() == 6) {
+                if (second_move[0] == ' ')
+                    chess_area = pawn_move(chess_area, second_move);
+                else
+                    chess_area = figure_move(chess_area, second_move);
+            }
             cout << endl;
             out_area(chess_area, n);
             cout << endl;
