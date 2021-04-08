@@ -1,9 +1,7 @@
 bin/chessviz
+bin/chessviz-tests
 obj/src/libchessviz/*.o
 obj/src/chessviz/*.o
 obj/src/libchessviz/*.d
 obj/src/chessviz/*.d
 obj/src/libchessviz/libchessviz.a
-
-
-
