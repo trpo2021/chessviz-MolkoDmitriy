@@ -45,5 +45,5 @@ $(PLibobj)/mvfigure.o: $(PLib)/mvfigure.cpp
 
 .PHONY: clean
 clean:
-	rm ./bin/chessviz $(PLibobj)/*.o $(PSrcobj)/*.o
-	rm $(PLibobj)/*.d $(PSrcobj)/*.d $(PLibobj)/libchessviz.a ./obj/test/main.d ./obj/test/main.o
+	rm -rf bin/*
+	rm -rf obj/src/chessviz/*.*  obj/test/*.* obj/src/libchessviz/*.*
