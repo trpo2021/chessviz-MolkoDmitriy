@@ -1,27 +1,49 @@
 CXX = g++
 CFLAG = -Wall -Werror
 CPPFLAGS = -MMD
+PLibobj = ./obj/src/libchessviz
+PSrcobj = ./obj/src/chessviz
+PLib = ./src/libchessviz
+PSrc = ./src/chessviz
 
 all: ./bin/chessviz
+.PHONY: test
+test: ./bin/chessviz-tests
 
-./bin/chessviz:  ./obj/src/chessviz/main.o ./obj/src/libchessviz/libchessviz.a
-	$(CXX) $(CFLAG)   obj/src/chessviz/main.o obj/src/libchessviz/libchessviz.a -o bin/chessviz
+./bin/chessviz-tests: ./obj/test/main.o ./obj/test/test.o $(PLibobj)/libchessviz.a
+	$(CXX) $(CFLAG) ./obj/test/main.o   ./obj/test/test.o    $(PLibobj)/libchessviz.a -o ./bin/chessviz-tests
 
-./obj/src/chessviz/main.o: src/chessviz/main.cpp
-	$(CXX) $(CFLAG) $(CPPFLAGS)  -o obj/src/chessviz/main.o   -c  -I src/ src/chessviz/main.cpp
+./obj/test/main.o: ./test/main.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o ./obj/test/main.o -c -I src/ -I thirdparty/ ./test/main.cpp
 
-./obj/src/libchessviz/libchessviz.a: ./obj/src/libchessviz/mvpawn.o ./obj/src/libchessviz/checkmove.o
-	ar rcs obj/src/libchessviz/libchessviz.a  obj/src/libchessviz/mvpawn.o obj/src/libchessviz/checkmove.o
+./obj/test/test.o: ./test/test.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o ./obj/test/test.o -c -I src/ -I thirdparty/ ./test/test.cpp
 
-./obj/src/libchessviz/checkmove.o: src/libchessviz/checkmove.cpp
-	$(CXX) $(CFLAG) $(CPPFLAGS) -o obj/src/libchessviz/checkmove.o -c -I src/ src/libchessviz/checkmove.cpp
 
-./obj/src/libchessviz/mvpawn.o: src/libchessviz/mvpawn.cpp
-	$(CXX) $(CFLAG) $(CPPFLAGS) -o obj/src/libchessviz/mvpawn.o -c -I src/ src/libchessviz/mvpawn.cpp
+./bin/chessviz:  $(PSrcobj)/main.o $(PLibobj)/libchessviz.a
+	$(CXX) $(CFLAG)   $(PSrcobj)/main.o $(PLibobj)/libchessviz.a -o ./bin/chessviz
 
--include obj/src/libchessviz/mvpawn.d obj/src/libchessviz/checkmove.d  obj/src/chessviz/main.d
+$(PSrcobj)/main.o: $(PSrc)/main.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS)  -o $(PSrcobj)/main.o   -c  -I src/ $(PSrc)/main.cpp
+
+$(PLibobj)/libchessviz.a: $(PLibobj)/mvpawn.o $(PLibobj)/checkmove.o $(PLibobj)/convert_to_int.o $(PLibobj)/mvfigure.o
+	ar rcs $(PLibobj)/libchessviz.a  $(PLibobj)/mvpawn.o $(PLibobj)/checkmove.o $(PLibobj)/convert_to_int.o $(PLibobj)/mvfigure.o
+
+$(PLibobj)/checkmove.o: $(PLib)/checkmove.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(PLibobj)/checkmove.o -c -I src/ $(PLib)/checkmove.cpp
+
+$(PLibobj)/mvpawn.o: $(PLib)/mvpawn.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(PLibobj)/mvpawn.o -c -I src/ $(PLib)/mvpawn.cpp
+
+$(PLibobj)/convert_to_int.o: $(PLib)/convert_to_int.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(PLibobj)/convert_to_int.o -c -I src/  $(PLib)/convert_to_int.cpp
+
+$(PLibobj)/mvfigure.o: $(PLib)/mvfigure.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(PLibobj)/mvfigure.o -c -I src/  $(PLib)/mvfigure.cpp
+
+-include $(PLibobj)/mvpawn.d $(PLibobj)/checkmove.d $(PSrcobj)/main.d  $(PLibobj)/convert_to_int.d $(PLibobj)/mvfigure.d  ./obj/test/main.d
 
 .PHONY: clean
 clean:
-	rm ./bin/chessviz ./obj/src/libchessviz/*.o ./obj/src/chessviz/*.o
-	rm ./obj/src/libchessviz/*.d ./obj/src/chessviz/*.d ./obj/src/libchessviz/libchessviz.a
+	rm -rf bin/*
+	rm -rf obj/src/chessviz/*.*  obj/test/*.* obj/src/libchessviz/*.*
