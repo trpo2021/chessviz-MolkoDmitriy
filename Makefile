@@ -5,6 +5,7 @@ PLibobj = ./obj/src/libchessviz
 PSrcobj = ./obj/src/chessviz
 PLib = ./src/libchessviz
 PSrc = ./src/chessviz
+Pobjtest = ./obj/test/
 
 all: ./bin/chessviz
 .PHONY: test
@@ -13,11 +14,11 @@ test: ./bin/chessviz-tests
 ./bin/chessviz-tests: ./obj/test/main.o ./obj/test/test.o $(PLibobj)/libchessviz.a
 	$(CXX) $(CFLAG) ./obj/test/main.o   ./obj/test/test.o    $(PLibobj)/libchessviz.a -o ./bin/chessviz-tests
 
-./obj/test/main.o: ./test/main.cpp
-	$(CXX) $(CFLAG) $(CPPFLAGS) -o ./obj/test/main.o -c -I src/ -I thirdparty/ ./test/main.cpp
+$(Pobjtest)main.o: ./test/main.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(Pobjtest)main.o -c -I src/ -I thirdparty/ ./test/main.cpp
 
-./obj/test/test.o: ./test/test.cpp
-	$(CXX) $(CFLAG) $(CPPFLAGS) -o ./obj/test/test.o -c -I src/ -I thirdparty/ ./test/test.cpp
+$(Pobjtest)test.o: ./test/test.cpp
+	$(CXX) $(CFLAG) $(CPPFLAGS) -o $(Pobjtest)test.o -c -I src/ -I thirdparty/ ./test/test.cpp
 
 
 ./bin/chessviz:  $(PSrcobj)/main.o $(PLibobj)/libchessviz.a
